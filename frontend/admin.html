@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Library Management</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="main-content">
-            <!-- Student Management (NEW) -->
+            <!-- Student Management -->
             <div id="studentsSection" class="section active">
                 <h2>Manage Student Accounts</h2>
                 <div class="card">
@@ -34,13 +34,11 @@
                         <input type="text" id="studentName" placeholder="Full Name" required>
                         <input type="email" id="studentEmail" placeholder="Email Address" required>
                         <input type="password" id="studentPassword" placeholder="Password" required>
-                        <input type="text" id="studentRollNo" placeholder="Roll Number / ID (Optional)">
                         <button type="submit" class="btn-primary">Add Student</button>
                     </form>
                 </div>
                 <div class="card">
                     <h3>Student List</h3>
-                    <input type="text" id="searchStudents" placeholder="Search students..." onkeyup="searchStudents()">
                     <div id="studentsList"></div>
                 </div>
             </div>
@@ -79,7 +77,6 @@
                     </form>
                 </div>
                 <div class="card">
-                    <h3>Book Catalog</h3>
                     <input type="text" id="searchBooks" placeholder="Search books..." onkeyup="searchBooks()">
                     <div id="booksList"></div>
                 </div>
@@ -107,6 +104,6 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
