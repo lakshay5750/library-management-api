@@ -3,7 +3,7 @@ const API_URL =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:8000/api"
-    : "https://library-management-api-7tua.onrender.com"; // CHANGE: Replace with your actual backend URL after deployment
+    : "https://library-management-api-7tua.onrender.com/api"; // CHANGE: Replace with your actual backend URL after deployment
 
 // The rest of your existing script.js code continues below...
 // Make sure ALL fetch() calls use API_URL instead of hardcoded URLs
