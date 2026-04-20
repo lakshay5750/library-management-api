@@ -276,11 +276,17 @@ def return_book(data: dict):
     return {"success": True, "fine": fine}
 
 # ========== OTHER ENDPOINTS ==========
+# ========== STUDENT ENDPOINTS ==========
 @app.get("/api/my-books")
 def get_my_books(email: str):
+    """Get all books issued to a specific student"""
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM transactions WHERE student_email = ? AND status = 'issued'", (email,))
+    cursor.execute("""
+        SELECT * FROM transactions 
+        WHERE student_email = ? AND status = 'issued'
+        ORDER BY due_date ASC
+    """, (email,))
     transactions = cursor.fetchall()
     conn.close()
     
@@ -289,10 +295,49 @@ def get_my_books(email: str):
         result.append({
             "_id": str(trans['id']),
             "book_title": trans['book_title'],
+            "book_id": trans['book_id'],
             "issue_date": trans['issue_date'],
-            "due_date": trans['due_date']
+            "due_date": trans['due_date'],
+            "status": trans['status'],  # This will be 'issued'
+            "fine": trans['fine']
         })
     return result
+
+@app.get("/api/student-fine")
+def get_student_fine(email: str):
+    """Get total fine for a student"""
+    conn = get_db()
+    cursor = conn.cursor()
+    
+    # Get fine from user table
+    cursor.execute("SELECT fine FROM users WHERE email = ?", (email,))
+    user = cursor.fetchone()
+    
+    # Also calculate any overdue fines on currently issued books
+    cursor.execute("""
+        SELECT * FROM transactions 
+        WHERE student_email = ? AND status = 'issued'
+    """, (email,))
+    transactions = cursor.fetchall()
+    conn.close()
+    
+    # Get fine per day setting
+    settings = get_settings()
+    fine_per_day = settings['fine_per_day']
+    
+    # Calculate overdue fines
+    today = datetime.now()
+    overdue_fine = 0
+    
+    for trans in transactions:
+        due_date = datetime.fromisoformat(trans['due_date'])
+        if today > due_date:
+            days_late = (today - due_date).days
+            overdue_fine += days_late * fine_per_day
+    
+    total_fine = (user['fine'] if user else 0) + overdue_fine
+    
+    return {"fine": total_fine}
 
 @app.get("/api/all-issued-books")
 def get_all_issued_books():
