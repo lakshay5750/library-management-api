@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Library Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📚 Student Dashboard</div>
+        <div class="nav-info">
+            <span id="userName"></span>
+            <span id="fineAmount" class="fine-badge">Fine: ₹0</span>
+            <button onclick="logout()" class="btn-logout">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <button class="sidebar-btn active" onclick="showSection('catalog')">🔍 Search Catalog</button>
+            <button class="sidebar-btn" onclick="showSection('mybooks')">📚 My Books</button>
+        </div>
+
+        <div class="main-content">
+            <!-- Book Catalog -->
+            <div id="catalogSection" class="section active">
+                <h2>Book Catalog</h2>
+                <div class="card">
+                    <input type="text" id="searchBooks" placeholder="Search by title, author, or ISBN..." onkeyup="searchBooks()">
+                    <div id="booksList"></div>
+                </div>
+            </div>
+
+            <!-- My Books -->
+            <div id="mybooksSection" class="section">
+                <h2>My Issued Books</h2>
+                <div id="myBooksList"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
